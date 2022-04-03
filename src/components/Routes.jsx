@@ -6,6 +6,7 @@ import { makeStyles } from '@mui/styles';
 import { useResultContext } from './ResultContextProvider';
 import { Loading } from './Loading';
 import ReactPlayer from 'react-player';
+import { Search } from './Search';
 
 const useStyle = makeStyles(theme => ({
   searchStyles: dark => ({
@@ -63,10 +64,9 @@ export const RoutePaths = ({ dark }) => {
   
   if (isLoading) return <Loading />
 
-  switch (location.pathname) {
-    case '/search':
-      return (
-        <Container>
+  const SearchAll = () => {
+    return (
+      <Container>
           <Grid container spacing={2} justifyContent='center' className={classes.searchStyles} >
             {results?.map(({link, title}, index) => (
               !link.href && (
@@ -83,9 +83,14 @@ export const RoutePaths = ({ dark }) => {
           }
           </Grid>
         </Container>
-      );
+    )
+  }
 
-   
+  switch (location.pathname) {
+    case '/search':
+      return (
+        <SearchAll />
+      );
 
     case '/images':
       return (
@@ -119,7 +124,9 @@ export const RoutePaths = ({ dark }) => {
 
     case '/news':
       return (
-        <Grid container spacing={3} px={2} className={classes.newsStyle} >
+        <Grid container spacing={3} justifyContent='center' px={2} className={classes.newsStyle} >
+          <Grid item xs={false} md={1} lg={2} ></Grid>
+          <Grid item container xs={12} md={10} lg={8} >
           { results?.map(({ links, id, source, title }) => (
             <Grid item key={Math.floor(Math.random() * 100000)} xs={12} >
                 <ButtonBase style={{ display: 'block' }} LinkComponent='a' href={links?.[0]?.href} target='_blank' >
@@ -134,9 +141,10 @@ export const RoutePaths = ({ dark }) => {
                 </ButtonBase>
             </Grid>
           ))}
+          </Grid>
+          <Grid item xs={false} md={1} lg={2} ></Grid>
         </Grid>
       )
-    
 
     case '/videos':
       return (
@@ -151,7 +159,7 @@ export const RoutePaths = ({ dark }) => {
 
     
     default:
-      return 'Error';
+      return <SearchAll />;
   }
 }
 
