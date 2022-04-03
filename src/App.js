@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { Box, CssBaseline } from '@mui/material';
+import { Navbar } from './components/Navbar';
+import { Footer } from './components/Footer';
+import { RoutePaths } from './components/Routes';
+import { makeStyles } from '@mui/styles';
 
-function App() {
+const useStyles = makeStyles(theme => ({
+  pageDark: {
+    background: '#111',
+    height: '100vh',
+    width: '100vw',
+    overflowY: 'auto',
+    color: '#fff',
+  },
+}));
+
+export const App = () => {
+  const classes = useStyles();
+
+  const [dark, setDark] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Box className={dark ? classes.pageDark : ''}>
+      <CssBaseline />
+      <Navbar dark={dark} setDark={setDark} />
+      <RoutePaths dark={dark} />
+      <Footer />
+    </Box>
+  )
 }
-
-export default App;
